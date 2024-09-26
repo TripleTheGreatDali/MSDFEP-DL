@@ -1,0 +1,321 @@
+<style>
+    .show_screen {
+        width: 100%;
+        height: 70%;
+        /*background-color: #00c61c;*/
+
+    }
+
+    .test_title {
+        width: 100%;
+        height: 10%;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+    }
+
+    .test_title > span {
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    .show_img {
+        width: 100%;
+        height: 70%;
+        /*background-color: #5bc0de;*/
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+    }
+
+    .show_rl_img {
+        height: 80%;
+        border: 2px dashed black;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        box-sizing: border-box;
+        font-size: 30px;
+        font-weight: bolder;
+    }
+
+    #displayImage,
+    #result_Image,
+    #segment_Image {
+        width: 100%;
+        height: 100%;
+        display: none;
+        object-fit: fill;
+    }
+
+    .close {
+        display: none !important;
+    }
+
+    .class_result {
+        height: 20%;
+        font-size: 20px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .model_config {
+        width: 100%;
+        height: 30%;
+    }
+
+    .train_select {
+        position: relative;
+        width: 100%;
+        height: 20%;
+        display: flex;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+
+    .train_label {
+        font-size: 150%;
+        position: absolute;
+        left: 10%;
+        background-color: #424F63;
+        color: white;
+        border: 2px solid gray;
+        width: 20%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .train_select_option {
+        position: absolute;
+        font-size: 20px;
+        width: 50%;
+        height: 100%;
+        display: block;
+        left: 40%;
+    }
+
+    /*模型置信度*/
+    .slider-container {
+        position: absolute;
+        font-size: 20px;
+        width: 50%;
+        height: 150%;
+        display: block;
+        left: 40%;
+
+    }
+
+    #myRange {
+        width: 100%;
+    }
+
+    .slider_txt {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .slider-container > .sliderValue {
+        font-size: 16px;
+        text-align: center;
+    }
+
+    .train_button {
+        width: 80% !important;
+        height: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+    }
+
+    #save_config,
+    #start_test {
+        font-size: 60%;
+        background-color: #424f63;
+        color: white;
+        width: 25%;
+        height: 100%;
+    }
+
+    #save_config,
+    #start_test {
+        font-size: 25px !important;
+    }
+
+    #save_config:not(:disabled):hover,
+    #start_test:not(:disabled):hover {
+        cursor: pointer;
+        transform: scale(1.1);
+        background-color: #E6F7FF;
+        color: #1684FC;
+    }
+
+    /* 特定样式适用于禁用的按钮 */
+    #save_config[disabled],
+    #start_test[disabled] {
+        background-color: #A0A0A0; /* 灰色背景显示为禁用 */
+        color: #cccccc; /* 修改文本颜色以增加对比，使其更明显 */
+    }
+</style>
+<div class="show_screen">
+    <div class="test_title">
+        <span class="title">Upload Image</span>
+        <span class="title">Lesion Area Recognition</span>
+        <span class="title">Pterygium Area Segmentation</span>
+    </div>
+    <div class="show_img">
+        <div id="uploadContainer" class="show_rl_img imgContainer">
+            Click to Upload
+        </div>
+        <input type="file" id="fileInput" accept="image/*" style="display: none">
+        <div id="Detecting_diseased" class="show_rl_img imgContainer">
+            Lesion Area Recognition
+        </div>
+        <div id="region_segmentation" class="show_rl_img imgContainer">
+            Pterygium Area Segmentation
+        </div>
+
+    </div>
+    <div class="class_result">
+        Recognition Result
+    </div>
+</div>
+<div class="model_config">
+    <!--        模型置信度选择-->
+    <div class="train_select">
+        <label class="train_label"><span>Select Model Confidence:</span></label>
+
+        <div class="slider-container">
+            <div class="slider_txt">
+                <span>0</span>
+                <span class="sliderValue">Value: <span id="sliderValue">40</span></span>
+                <span>100</span>
+            </div>
+            <input type="range" id="myRange" min="0" max="100" value="40">
+        </div>
+    </div>
+
+    <!--        按钮设置-->
+    <div class="train_select">
+        <div class="train_select_option train_button">
+            <button class="" id="save_config">Save Configuration.</button>
+            <button class="" id="start_test" disabled>Start R&S</button>
+        </div>
+    </div>
+
+</div>
+<script>
+    $(document).ready(function () {
+        // 绑定点击事件到容器上,上传文件
+        $('#uploadContainer').click(function () {
+            $('#fileInput').click();
+        });
+
+        // 确保文件输入的点击事件不会向上冒泡
+        $('#fileInput').click(function (event) {
+            event.stopPropagation();
+        });
+
+        // 处理文件选择事件，将图片放入到div中展示
+        $('#fileInput').change(function (event) {
+            var file = event.target.files[0];
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#uploadContainer').html('<img id="displayImage" src="" alt="Uploaded images will be displayed here">')
+                $('#displayImage').attr('src', e.target.result).show();
+            };
+
+            reader.readAsDataURL(file);
+        });
+        // 让上传的图片框大小一样
+        var setSquare = function () {
+            var height = $('.imgContainer').height();
+            $('.imgContainer').width(height * 1.5);
+        };
+        // 调整宽度和高度
+        setSquare();
+        // 当窗口大小改变时重新调整
+        $(window).resize(setSquare);
+
+        // 当滑块的值发生变化时
+        $('#myRange').on('input', function () {
+            // 获取滑块的值
+            var value = $(this).val();
+
+            // 更新显示的值
+            $('#sliderValue').text(value);
+        });
+
+        $('#save_config').click(function () {
+            var file = $('#fileInput')[0].files[0];
+            if (file) {
+                $('#start_test').prop('disabled', false);
+                alert("Model Configuration Successful");
+            } else {
+                alert('Please upload an image first');
+            }
+
+        })
+        $('#start_test').click(function () {
+            $('#save_config').prop('disabled', true);
+            $('#start_test').prop('disabled', true);
+            $('#Detecting_diseased').html('Please wait for lesion area recognition')
+            $('#region_segmentation').html('Please wait for pterygium area segmentation')
+
+            // $('#Detecting_diseased').html('<img id="result_Image" src="../static/test/split.png" alt="上传的图片将显示在这里">')
+            // $('#result_Image').attr('src', "../static/test/split.png").show();
+            // $('.class_result').text("有52%的概率是建议手术的")
+            //
+            $('.class_result').text('Please wait......')
+            var file = $('#fileInput')[0].files[0]; // 获取文件
+            if (file) {
+                new Compressor(file, {
+                    quality: 0.6, // 压缩质量，取值范围为 0 到 1
+                    maxWidth: 900, // 图片最大宽度
+                    maxHeight: 600, // 图片最大高度
+                    success(result) {
+                        var formData = new FormData(); // 创建一个FormData实例
+                        var confidenceDegree = parseInt($('#sliderValue').text()); // 假设这是你获取Confidence_degree的方式
+                        formData.append('file', result); // 将压缩后的文件添加到表单数据中
+                        formData.append('Confidence_degree', confidenceDegree); // 添加置信度
+
+                        $.ajax({
+                            url: '/index/model_img_test/recognize', // 或者是你的Flask后端URL
+                            type: 'POST',
+                            data: formData,
+                            contentType: false, // 这将告诉jQuery不要设置内容类型头
+                            processData: false, // 这将告诉jQuery不要处理发送的数据
+                            success: function (response) {
+                                $('#Detecting_diseased').html('<img id="result_Image" src="" alt="Uploaded images will be displayed here">')
+                                $('#result_Image').attr('src', response.img_url).show();
+                                $('#region_segmentation').html('<img id="segment_Image" src="" alt="Uploaded images will be displayed here">')
+                                $('#segment_Image').attr('src', response.crop_img_url).show();
+                                $('.class_result').text(response.result_text)
+                                alert(response.status)
+                                $('#save_config').prop('disabled', false);
+                            },
+                            error: function (xhr, status, error) {
+                                // 出错时的处理
+                                console.error(error);
+                            }
+                        });
+                    },
+                    error(err) {
+                        console.error(err.message);
+                    },
+                });
+            } else {
+                alert('Please upload an image first')
+            }
+        })
+
+    });
+</script>

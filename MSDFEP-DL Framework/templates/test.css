@@ -1,0 +1,28 @@
+.accordion {
+    list-style-type: none;
+    padding: 0;
+}
+
+.accordion a {
+    display: block;
+    padding: 10px;
+    background-color: #eee;
+    text-decoration: none;
+    color: black;
+    border-bottom: 1px solid #ddd;
+}
+/* 高亮目标菜单项 */
+.accordion li:target > a {
+    background-color: #ddd;
+    color: #1684FC;
+}
+.accordion .content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out;
+    background-color: #f9f9f9;
+}
+
+.accordion li:target .content {
+    max-height: 1000px; /* 大于最大内容高度，确保内容显示 */
+}

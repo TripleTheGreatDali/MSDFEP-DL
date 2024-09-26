@@ -1,0 +1,60 @@
+/*模型选择*/
+.show_my_model {
+    font-size: 150%;
+}
+#show_model{
+    width: 60%;
+    height: 35px;
+    text-align: center;
+    font-size: 150%;
+}
+#delete_model{
+    width: 20%;
+    height: 36px;
+    text-align: center;
+    background-color: rgb(66, 79, 99);
+    color: white;
+    font-size: 150% !important;
+}
+#delete_model:hover{
+    cursor: pointer;
+    background-color: #E6F7FF;
+    color: #1684FC;
+}
+/*画图展示*/
+.picture{
+    width: 80%;
+    margin-top: 1rem;
+    height: 80%;
+    font-size: 100%;
+}
+label {
+    margin:auto;
+}
+.loss{
+    width: 100%;
+    height: 50%;
+}
+.loss_img{
+    width: 100%;
+    height: 90%;
+
+}
+#loss_img{
+    width: 100% !important;
+    height: 100% !important;
+}
+.accuracy{
+    margin-top: 1rem;
+    width: 100%;
+    height: 50%;
+}
+.accuracy_img{
+    width: 100%;
+    height: 90%;
+
+}
+#accuracy_img{
+    width: 100% !important;
+    height: 100% !important;
+}

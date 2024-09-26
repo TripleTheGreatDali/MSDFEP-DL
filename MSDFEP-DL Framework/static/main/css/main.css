@@ -1,0 +1,244 @@
+/*==================================
+font-family: 'Roboto', sans-serif;
+==================================== */
+
+
+/*=========== TABLE OF CONTENTS ===========
+1.  General css (Reset code)
+2.  Header-top
+3.  sidebar
+4.  center-container
+5.  footer
+==================================== */
+
+/*-------------------------------------
+		1.General css (Reset code)
+--------------------------------------*/
+* {
+    padding: 0;
+    margin: 0;
+}
+
+body, html {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+}
+
+/*=============Style css=========*/
+
+
+/*-------------------------------------
+        2. Header-top
+--------------------------------------*/
+.header-top {
+    display: flex;
+    justify-content: space-between; /* 在主轴方向上分散对齐子元素 */
+    align-items: center; /* 在交叉轴方向上居中对齐子元素 */
+    border-bottom: 1px solid #f6f8fa;
+    width: 100%;
+}
+
+.exit {
+    font-size: 30px !important;
+    margin-top: -3rem;
+    margin-right: 3rem;
+}
+
+.exit:hover {
+    cursor: pointer;
+}
+
+.header-title {
+    font-size: 50px;
+    margin-left: -15rem; /* 如果需要，可以保留或调整左边距 */
+    text-align: center; /* 保证文字本身居中，对Flexbox布局非必需 */
+}
+
+/*-------------------------------------
+        3. sidebar
+--------------------------------------*/
+.body-style {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+}
+
+.sidebar {
+    width: 25%;
+    height: 100vh;
+    background-color: #e3e7f5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sidebar-top {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    flex-shrink: 0;
+    margin: 24px 0 8px;
+}
+
+.purple-ball {
+    width: 10px;
+    height: 10px;
+    border-radius: 9px;
+    margin: -2px;
+    background-image: linear-gradient(90deg, rgba(153, 153, 242, .5), #9999f2);
+}
+
+.yellow-ball {
+    width: 10px;
+    height: 10px;
+    border-radius: 9px;
+    margin: -2px;
+    background-image: linear-gradient(270deg, #f3cc55, rgba(243, 204, 85, .5) 87%);
+}
+
+.sidebar-top-title {
+    margin: 0 12px;
+    font-size: 20px;
+    color: #2c3142;
+    letter-spacing: 0;
+    text-align: center;
+}
+
+.sidebar-content {
+    padding: 5px;
+    margin-top: 10rem;
+    width: 50%;
+    height: 100px;
+    background-color: whitesmoke;
+    border: 3px solid transparent;
+    border-radius: 10px;
+}
+
+.sidebar-content:hover {
+    cursor: pointer;
+    border: 3px solid blue; /* 设置边框为2px宽、实线和红色 */
+    /*transform: scale(1.1);*/
+}
+
+.sidebar-content-txt {
+    display: block;
+    margin-top: 10px;
+    font-size: 14px;
+    color: rgba(41, 47, 66, 0.8);
+    letter-spacing: 0;
+    line-height: 24px;
+    font-weight: 400;
+}
+
+/*-------------------------------------------------------------
+        4. center-container======header-top
+-------------------------------------------------------------*/
+
+.center-container {
+    position: relative;
+    width: 75%;
+    height: 100vh;
+}
+
+.center-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('../images/backgroundimg.jpeg'); /* 设置背景图像 */
+    background-size: cover; /* 背景图片覆盖整个元素 */
+    background-position: bottom; /* 背景图片从底部显示 */
+    opacity: 0.5; /* 设置透明度为0.5 */
+    z-index: -10; /* 确保伪元素在内容下方 */
+}
+
+.center-container-header-top {
+    margin: 0 !important;
+    width: 100%;
+    height: 5%;
+    /*text-align: center;*/
+    background-color: white;
+    display: flex;
+}
+
+.center-container-header-top > a {
+    display: flex;
+    width: 20%;
+    border: 2px solid gainsboro;
+    justify-content: center;
+    align-items: center;
+}
+
+.center-container-header-top > a:hover {
+    border: 2px solid black;
+    color: white;
+    background-color: rgba(0, 102, 255, 0.68);
+}
+
+/*-------------------------------------------------------------
+        4. center-container======center-model-container
+-------------------------------------------------------------*/
+.center-model-container {
+
+    display: flex;
+    width: 100%;
+    height: 95%;
+    justify-content: space-evenly;
+    align-items: center;
+    /*background-color: #00c61c;*/
+}
+
+.model-select {
+    margin-top: -20rem;
+    position: relative;
+    padding: 20px;
+    width: 25%;
+    height: 30%;
+    background-color: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.model-select-box {
+    display: block;
+}
+
+.model-select-box:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+.model-select-box-txt {
+    margin-top: 0px;
+}
+
+
+/*-------------------------------------------------------------
+        5. footer======center-model-container
+-------------------------------------------------------------*/
+/* footer */
+.footer {
+    position: absolute;
+    right: 1em;
+    bottom: 1em;
+}
+
+.footer p {
+    position: relative;
+    font-family: 'Droid Sans', sans-serif;
+    color: #090000;
+    display: block;
+    font-size: 1em;
+    font-weight: bold;
+    text-align: right;
+    padding-top: 2em;
+}
